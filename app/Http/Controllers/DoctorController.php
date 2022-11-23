@@ -12,7 +12,6 @@ class DoctorController extends Controller
     {
         $doctorModel = new Doctor();
         $doctors = $doctorModel->all();
-        // return response()->json($doctors);
         return view('doctors',['doctors' => $doctors]);
     }
 
@@ -24,6 +23,10 @@ class DoctorController extends Controller
         return view('show_doctor', ['doctor' => $doctor]);
     }
 
+    public function create() {
+        return view('create_doctor');
+    }
+
     public function store(Request $request) {
         $doctorModel = new Doctor();
         $doctorModel->name = $request->name;
@@ -32,14 +35,30 @@ class DoctorController extends Controller
         $doctorModel->password = $request->password;
 
         $doctorModel->save();
-        return response()->json($doctorModel);
+        return redirect('/doctors');
+        // return response()->json($doctorModel);
     }
 
-    public function update(Request $request) {
+    public function update($id) {
+        $doctorModel = Doctor::find($id);
+        if ($doctorModel) {
+            $params = Request::all();
+            $doctorModel->update($params);
+            return response()->json($doctorModel);
+        }
 
+            return response()->json('Usuário não encontrado');
     }
 
     public function delete($id) {
-        
+            $doctor = Doctor::find($id);
+            if ($doctor) {
+                $doctor->forceDelete();
+                return;
+            }
+
+            return view('notfound', ['reason' => 'Usuário']);
+
+
     }
 }

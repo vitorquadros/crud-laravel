@@ -17,6 +17,7 @@
             <p>Nome</p>
             <p>CRM</p>
             <p>Email</p>
+            <a href="/doctors/create">+ Novo</a>
         </header>
     </section>
 
@@ -27,7 +28,7 @@
         <p>{{$doctor->crm}}</p>
         <p>{{$doctor->email}}</p>
         <button id="edit">Editar</button>
-        <button id="delete">Excluir</button>
+        <button id="delete" onclick="window.location='{{ url('/doctors/' . $problem->id . '/edit') }}'">Excluir</button>
 
     </div>
     @endforeach
