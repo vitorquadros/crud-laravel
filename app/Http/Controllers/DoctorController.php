@@ -34,4 +34,12 @@ class DoctorController extends Controller
         $doctorModel->save();
         return response()->json($doctorModel);
     }
+
+    public function update(Request $request) {
+
+    }
+
+    public function delete($id) {
+        
+    }
 }
