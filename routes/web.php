@@ -11,8 +11,10 @@ Route::get('/', function () {
 });
 
 Route::get('/doctors', [DoctorController::class, 'index']);
+Route::get('/doctors/create', [DoctorController::class, 'create']);
 Route::get('/doctors/{id}', [DoctorController::class, 'show']);
 Route::post('/doctors', [DoctorController::class, 'store']);
+Route::put('/doctors/{id}', [DoctorController::class, 'update']);
 
 Route::get('/vaccines', [VaccineController::class, 'index']);
 Route::get('/vaccines/{id}', [VaccineController::class, 'show']);
