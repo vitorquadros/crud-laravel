@@ -7,6 +7,7 @@
     <title>Lista de Consultas</title>
 </head>
 <body>
+    <a href="/">Voltar</a>
     <h1>Consultas</h1>
     @if ($appointments->count()>0)
     <table>

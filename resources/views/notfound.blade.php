@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>{{$reason}} não encontrado!</h1>
+    <a href="/">Voltar</a>
+    <h1>Não foram encontrados registros para {{$reason}} </h1>
 </body>
 </html>

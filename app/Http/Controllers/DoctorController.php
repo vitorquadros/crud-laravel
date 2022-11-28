@@ -12,7 +12,11 @@ class DoctorController extends Controller
     {
         $doctorModel = new Doctor();
         $doctors = $doctorModel->all();
-        return view('doctors',['doctors' => $doctors]);
+        if ($doctors->count() < 1) {
+            return view('notfound', ['reason' => 'Médicos']);
+        }
+
+        return view('doctors', ['doctors' => $doctors]);
     }
 
     public function show($id)
@@ -57,7 +61,7 @@ class DoctorController extends Controller
                 return;
             }
 
-            return view('notfound', ['reason' => 'Usuário']);
+            return view('notfound', ['reason' => 'Médico']);
 
 
     }

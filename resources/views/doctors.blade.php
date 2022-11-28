@@ -8,6 +8,7 @@
     <title>Lista de Médicos</title>
 </head>
 <body>
+    <a href="/">Voltar</a>
     <div class="container">
     <h1>Médicos</h1>
     @if ($doctors->count()>0)

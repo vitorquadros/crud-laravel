@@ -11,6 +11,10 @@ class VaccineController extends Controller
     {
         $vaccineModel = new Vaccine();
         $vaccines = $vaccineModel->all();
+        if ($vaccines->count() < 1) {
+            return view('notfound', ['reason' => 'Vacinas']);
+        }
+
         return view('vaccines',['vaccines' => $vaccines]);
     }
 

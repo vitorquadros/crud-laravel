@@ -11,6 +11,10 @@ class AppointmentController extends Controller
     {
         $appointmentModel = new Appointment();
         $appointments = $appointmentModel->all();
+        if ($appointments->count() < 1) {
+            return view('notfound', ['reason' => 'Consultas']);
+        }
+        
         return view('appointments',['appointments' => $appointments]);
     }
 

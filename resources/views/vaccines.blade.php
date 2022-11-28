@@ -7,6 +7,7 @@
     <title>Lista de Vacinas</title>
 </head>
 <body>
+    <a href="/">Voltar</a>
     <h1>Vacinas</h1>
     @if ($vaccines->count()>0)
     <table>
