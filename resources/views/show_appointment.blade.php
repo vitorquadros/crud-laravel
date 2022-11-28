@@ -7,6 +7,7 @@
     <title>{{($appointment) ? $appointment->description : 'Não encontrado!'}}</title>
 </head>
 <body>
+    <a href="/appointments">Voltar</a>
     @if ($appointment)
     <h1>Informações da consulta: {{$appointment->description}}</h1>
     

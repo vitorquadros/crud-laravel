@@ -8,8 +8,8 @@
     <title>{{($doctor) ? $doctor->name : 'Não encontrado!'}}</title>
 </head>
 <body>
+    <a href="/doctors">Voltar</a>
     @if ($doctor)
-   
     
     <section>
         <h1>Informações de {{$doctor->name}}</h1>

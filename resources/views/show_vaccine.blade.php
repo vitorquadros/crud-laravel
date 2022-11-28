@@ -7,6 +7,7 @@
     <title>{{($vaccine) ? $vaccine->name : 'Não encontrado!'}}</title>
 </head>
 <body>
+    <a href="/vaccines">Voltar</a>
     @if ($vaccine)
     <h1>Informações da vacina: {{$vaccine->name}}</h1>
     

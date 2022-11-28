@@ -25,11 +25,11 @@
     @foreach($doctors as $doctor)
     <div class="card">
         <p>{{$doctor->id}}</p>
-        <p>{{$doctor->name}}</p>
+        <a href="/doctors/{{$doctor->id}}">{{$doctor->name}}</a>
         <p>{{$doctor->crm}}</p>
         <p>{{$doctor->email}}</p>
-        <button id="edit">Editar</button>
-        <button id="delete" onclick="window.location='{{ url('/doctors/' . $problem->id . '/edit') }}'">Excluir</button>
+        <a id="edit" href="{{route('edit', $doctor->id)}}">Editar</a>
+        <a id="delete" href="{{route('delete', $doctor->id)}}">Excluir</a>
 
     </div>
     @endforeach

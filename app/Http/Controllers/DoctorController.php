@@ -13,7 +13,7 @@ class DoctorController extends Controller
         $doctorModel = new Doctor();
         $doctors = $doctorModel->all();
         if ($doctors->count() < 1) {
-            return view('notfound', ['reason' => 'Médicos']);
+            return view('notfound', ['reason' => 'Médicos', 'page' => 'doctors']);
         }
 
         return view('doctors', ['doctors' => $doctors]);
@@ -40,29 +40,31 @@ class DoctorController extends Controller
 
         $doctorModel->save();
         return redirect('/doctors');
-        // return response()->json($doctorModel);
     }
 
-    public function update($id) {
-        $doctorModel = Doctor::find($id);
-        if ($doctorModel) {
-            $params = Request::all();
-            $doctorModel->update($params);
-            return response()->json($doctorModel);
+    public function edit($id) {
+        $doctor = ['doctor' => Doctor::find($id)];
+        return view('update_doctor', $doctor);
+    }
+
+    public function update(Request $request, $id) {
+        $params = $request->all();
+        $doctor = Doctor::find($id);
+            
+        $doctor->name = $params['name'];
+        $doctor->crm = $params['crm'];
+        $doctor->email = $params['email'];
+        $doctor->password = $params['password'];
+
+        if (!$doctor->save()) {
+            return response()->json(['error' => 'Não foi possível atualizar o médico.'], 500);
         }
 
-            return response()->json('Usuário não encontrado');
+        return redirect('/doctors');
     }
 
-    public function delete($id) {
-            $doctor = Doctor::find($id);
-            if ($doctor) {
-                $doctor->forceDelete();
-                return;
-            }
-
-            return view('notfound', ['reason' => 'Médico']);
-
-
+    public function destroy($id) {
+        if (!Doctor::destroy($id)) return response()->json(['error' => 'Não foi possível deletar o médico.'], 500); 
+        else return redirect('/doctors');
     }
 }
