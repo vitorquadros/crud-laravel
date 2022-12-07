@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\VaccineController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
