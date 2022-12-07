@@ -35,7 +35,7 @@
     @endforeach
      
     @else
-    <p>Doctors não encontrados! </p>
+    <p>Doctors não encontrados!</p>
     @endif
     </div>
 </body>
