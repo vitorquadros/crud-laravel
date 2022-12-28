@@ -1,18 +1,18 @@
-x-main-layout>
-    <h1>Insert new Appointment</h1>
-    <form id=create action="/appointments" method="POST">
+<x-main-layout>
+    <h1>Inserir nova Consulta</h1>
+    <form id="create" action="/appointment" method="POST">
         @csrf
         {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"/> --}}
         <table>
             <tr>
                 <td>Descricao:</td>
                 <td>
-                    <textarea name="descricao" id="" cols="30" rows="10"></textarea>
+                    <input name="description" type="text" />
                 </td>   
             </tr>
             <tr>
                 <td>Data:</td>
-                <td><input type="text" name="data" /></td>
+                <td><input type="text" name="date" /></td>
             </tr>
             <tr>
                 <td>Tipo:</td>
@@ -20,6 +20,6 @@ x-main-layout>
             </tr>
         </table>
     </form>
-    <input type="submit" value="Criar" form=create/>
-    <a href="/appointments"><button>Cancelar</button></a>
+    <input type="submit" value="Criar" form="create" />
+    <a href="/dashboard"><button>Cancelar</button></a>
 </x-main-layout>

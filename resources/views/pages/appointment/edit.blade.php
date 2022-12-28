@@ -1,5 +1,5 @@
 <x-dash-layout>
-    <h1>Inserir nova Consulta</h1>
+    <h1>Atualizar a Consulta {{ $appointment->id }}</h1>
     <form id=edit action="{{route('update_appointment',$appointment->id)}}" method="POST">
         @csrf
         <table>
@@ -9,7 +9,7 @@
             </tr>
             <tr>
                 <td>Data:</td>
-                <td><textarea name="date" id="" cols="30" rows="10">{{$appointment->date}}</textarea></td>
+                <td><input name="date" type="text" value="{{$appointment->date}}" /></td>
             </tr>
             <tr>
                 <td>Área:</td>

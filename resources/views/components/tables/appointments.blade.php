@@ -14,8 +14,13 @@
     <tbody>
         @foreach ($appointments as $appointment)
             <tr>
-                <td><a href="/appointments/{{ $appointment->id }}">{{ $appointment->id }}</a></td>
-                <td>{{ $appointment->description }}</td>
+                @if(Auth::user() && Route::is('dashboard'))
+                     <td><a href="{{route('appointment.single-dash',$appointment->id) }}">{{ $appointment->id }}</a></td>
+                     <td><a href="{{route('appointment.single-dash',$appointment->id) }}">{{ $appointment->description }}</a></td>
+                @else
+                    <td><a href="/appointments/{{ $appointment->id }}">{{ $appointment->id }}</a></td>
+                    <td><a href="/appointments/{{ $appointment->id }}">{{ $appointment->description }}</a></td>
+                @endif
                 <td>{{ $appointment->date }}</td>
                 <td>{{ $appointment->type }}</td>
         

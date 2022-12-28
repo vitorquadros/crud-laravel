@@ -32,7 +32,7 @@ class AppointmentController extends Controller
     {
         $newAppointment = $request->all();
         if (Appointment::create($newAppointment))
-            return redirect('/appointments');
+            return redirect('/dashboard');
         else dd("Erro ao criar consulta!!");
     }
 
@@ -63,6 +63,6 @@ class AppointmentController extends Controller
         if ($request->confirmar == 'Deletar')
             if (!Appointment::destroy($id))
                 dd("Error ao deletar consulta $id.");
-        return redirect('/appointments');
+        return redirect('/dashboard');
     }
 }

@@ -1,4 +1,4 @@
-<x-main-layout>
+<x-dash-layout>
 <div class="text-center mt-8">
     @vite('resources/css/show-appointment.css')
     @if ($appointment)
@@ -15,6 +15,7 @@
                     <th>Área</th>
                     <td>{{ $appointment->type }}</td>
                 </tr>
+               
             </tbody>
         </table>
         <a href="{{ route('edit_appointment', $appointment->id) }}"><button>editar</button></a>
@@ -23,7 +24,7 @@
         <p>Consultas não encontradas! </p>
     @endif
     <div>
-        <a href="/appointments">&#9664;Voltar</a>
+        <a href="/dashboard">&#9664;Voltar</a>
     </div>
 </div>
-</x-main-layout>
+</x-dash-layout>

@@ -7,6 +7,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Appointment;
 use App\Models\Vaccine;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,8 +18,17 @@ Route::get('/', function () {
 // DASHBOARD
 
 Route::get('/dashboard', function () {
-    return view('dashboard', ['appointments' => Appointment::all(), 'vaccines' => Vaccine::all()]);
+    return view('dashboard', 
+    [
+        'appointments' => Appointment::all(), 
+        'vaccines' => Vaccine::all(), 
+        'users' => User::all()
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard/appointment/{id}', function ($id) {
+    return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
+})->middleware(['auth', 'verified'])->name('appointment.single-dash');
 
 // PROFILE
 
