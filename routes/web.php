@@ -44,10 +44,12 @@ require __DIR__.'/auth.php';
 
 // ----------------- DOCTORS -----------------
 
+
+// livewire
 Route::get('/dashboard/doctor/{id}', function ($id) {
     return view('pages.doctor.single-dash',['doctor'=>Doctor::find($id) ]);
 })->middleware(['auth', 'verified'])->name('doctor.single-dash');
-
+// ----------
 
 Route::controller(DoctorController::class)->group(function () {
     Route::prefix('/doctors')->group(function () {
@@ -91,6 +93,12 @@ Route::controller(VaccineController::class)->group(function () {
 
 
 // ----------------- APPOINTMENTS -----------------
+
+// livewire
+Route::get('/dashboard/appointment/{id}', function ($id) {
+    return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
+})->middleware(['auth', 'verified'])->name('appointment.single-dash');
+// ----------
 
 Route::controller(AppointmentController::class)->group(function () {
     Route::prefix('/appointments')->group(function () {

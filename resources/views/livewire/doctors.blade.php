@@ -1,5 +1,7 @@
 <div x-data="{ open: false }">
-    @if (isset($doctors) && $doctors->count() > 0)
+    
+    @if (isset($doctors))
+    
         <div style="display:flex; flex-direction: row; justify-content:flex-end">
             <button @click="open = true">Criar Novo Médico</button>
         </div>
@@ -41,8 +43,11 @@
                 </div>
             </div>
         </div>
+        @if ($doctors->count() > 0)
         <x-tables.doctors-live :doctors="$doctors" class='table-odd' type='hover' />
+        @endif
     @else
         <p>Médicos não encontrados! </p>
+        
     @endif
 </div>
