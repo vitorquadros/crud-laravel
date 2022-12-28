@@ -2,7 +2,6 @@
     @vite('resources/css/show-appointment.css')
     @if ($appointment)
         <div>
-            <h1>{{ $appointment->type }}</h1>
             <h1 class='text-4xl font-bold'>{{ $appointment->type }}</h1>
             <p>{{ $appointment->descricao }}</p>
             <table>
