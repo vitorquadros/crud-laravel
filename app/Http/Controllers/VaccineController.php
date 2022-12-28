@@ -9,60 +9,60 @@ class VaccineController extends Controller
 {
     public function index()
     {
-        $vaccineModel = new Vaccine();
-        $vaccines = $vaccineModel->all();
-        if ($vaccines->count() < 1) {
-            return view('notfound', ['reason' => 'Vacinas', 'page' => 'vaccines']);
-        }
-
-        return view('vaccines',['vaccines' => $vaccines]);
+        $modelVaccine = new Vaccine();
+        $vaccines = $modelVaccine->all();
+        return view('pages.vaccine.index',
+        ['vaccines' => $vaccines]);
     }
 
     public function show($id)
     {
-        $vaccineModel = new Vaccine();
-        $vaccine = Vaccine::find($id);
-        
-        return view('show_vaccine', ['vaccine' => $vaccine]);
+        return view(
+            'pages.vaccine.single',
+            ['vaccine' => Vaccine::find($id)]
+        );
     }
 
-    public function create() {
-        return view('create_vaccine');
+    public function create()
+    {
+        return view('pages.vaccine.create');
     }
 
-    public function store(Request $request) {
-        $vaccineModel = new Vaccine();
-        $vaccineModel->name = $request->name;
-        $vaccineModel->expected_date = $request->expected_date;
-        $vaccineModel->application_date = $request->application_date;
-        $vaccineModel->is_future = $request['is_future'] === 'on' ? false : true;
+    public function store(Request $request)
+    {
+        $newVaccine = $request->all();
+        if (Vaccine::create($newVaccine))
+            return redirect('/vaccines');
+        else dd("Erro ao criar vacina!!");
+    }
 
-        $vaccineModel->save();
+    public function edit($id)
+    {
+        return view('pages.vaccine.edit', ['vaccine' => Vaccine::find($id)]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $updatedVaccine = $request->all();
+
+        if (!Vaccine::find($id)->update($updatedVaccine))
+            dd("Erro ao atualizar vacina $id!");
         return redirect('/vaccines');
     }
 
-    public function edit($id) {
-        $vaccine = ['vaccine' => Vaccine::find($id)];
-        return view('update_vaccine', $vaccine);
+    public function delete($id)
+    {
+        return view(
+            'pages.vaccine.delete',
+            ['vaccine' => Vaccine::find($id)]
+        );
     }
 
-    public function update(Request $request, $id) {
-        $params = $request->all();
-        $vaccine = Vaccine::find($id);
-            
-        $vaccine->name = $params['name'];
-        $vaccine->expected_date = $params['expected_date'];
-        $vaccine->application_date = $params['application_date'];
-
-        if (!$vaccine->save()) {
-            return response()->json(['error' => 'Não foi possível atualizar a vacina.'], 500);
-        }
-
+    public function remove(Request $request, $id)
+    {
+        if ($request->confirmar == 'Deletar')
+            if (!Vaccine::destroy($id))
+                dd("Error ao deletar vacina $id.");
         return redirect('/vaccines');
-    }
-
-    public function destroy($id) {
-        if (!Vaccine::destroy($id)) return response()->json(['error' => 'Não foi possível deletar a vacina.'], 500); 
-        else return redirect('/vaccines');
     }
 }

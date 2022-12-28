@@ -16,7 +16,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('doctors')" :active="request()->routeIs('doctors')">
-                        {{ __('Médicos Livewire') }}
+                        {{ __('Médicos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('vaccines')" :active="request()->routeIs('vaccines')">
+                        {{ __('Vacinas') }}
                     </x-nav-link>
                 </div>
             </div>

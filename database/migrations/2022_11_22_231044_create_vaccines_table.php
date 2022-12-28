@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('name');
             $table->date('expected_date');
             $table->date('application_date');
-            $table->boolean('is_future');
             $table->timestamps();
         });
     }

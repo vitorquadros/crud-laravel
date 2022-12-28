@@ -45,6 +45,8 @@
         </div>
         @if ($doctors->count() > 0)
         <x-tables.doctors-live :doctors="$doctors" class='table-odd' type='hover' />
+        @else
+        <p>Médicos não encontrados! </p>
         @endif
     @else
         <p>Médicos não encontrados! </p>

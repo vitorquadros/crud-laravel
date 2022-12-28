@@ -51,7 +51,7 @@ Route::get('/dashboard/doctor/{id}', function ($id) {
 })->middleware(['auth', 'verified'])->name('doctor.single-dash');
 // ----------
 
-Route::controller(DoctorController::class)->group(function () {
+Route::middleware('auth')->controller(DoctorController::class)->group(function () {
     Route::prefix('/doctors')->group(function () {
         Route::get('/', 'index')->name('doctors');
         Route::get('/{id}', 'show')->name('single-doctor');
@@ -72,7 +72,13 @@ Route::controller(DoctorController::class)->group(function () {
 
 // ----------------- VACCINES -----------------
 
-Route::controller(VaccineController::class)->group(function () {
+// livewire
+Route::get('/dashboard/vaccine/{id}', function ($id) {
+    return view('pages.vaccine.single-dash',['vaccine'=>Vaccine::find($id) ]);
+})->middleware(['auth', 'verified'])->name('vaccine.single-dash');
+// ----------
+
+Route::middleware('auth')->controller(VaccineController::class)->group(function () {
     Route::prefix('/vaccines')->group(function () {
         Route::get('/', 'index')->name('vaccines');
         Route::get('/{id}', 'show');
@@ -100,7 +106,7 @@ Route::get('/dashboard/appointment/{id}', function ($id) {
 })->middleware(['auth', 'verified'])->name('appointment.single-dash');
 // ----------
 
-Route::controller(AppointmentController::class)->group(function () {
+Route::middleware('auth')->controller(AppointmentController::class)->group(function () {
     Route::prefix('/appointments')->group(function () {
         Route::get('/', 'index')->name('appointments');
         Route::get('/{id}', 'show');

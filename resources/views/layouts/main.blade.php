@@ -20,7 +20,7 @@
     <header class="h-56 bg-green-400">
         <div class="flex flex-col items-center justify-center">
             <h1 class="w-1/2 mb-16 text-6xl mt-12 font-bold text-center text-blue-800 shadow-white">
-                Black Friday BuyTech
+                Médicos disponíveis
             </h1>
            
         </div>
