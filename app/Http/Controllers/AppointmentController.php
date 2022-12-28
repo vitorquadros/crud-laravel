@@ -9,60 +9,60 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointmentModel = new Appointment();
-        $appointments = $appointmentModel->all();
-        if ($appointments->count() < 1) {
-            return view('notfound', ['reason' => 'Consultas', 'page' => 'appointments']);
-        }
-        
-        return view('appointments',['appointments' => $appointments]);
+        $modelAppointment = new Appointment();
+        $appointments = $modelAppointment->all();
+        return view('pages.appointment.index',
+        ['appointments' => $appointments]);
     }
 
     public function show($id)
     {
-        $appointmentModel = new Appointment();
-        $appointment = Appointment::find($id);
-        
-        return view('show_appointment', ['appointment' => $appointment]);
+        return view(
+            'pages.appointment.single',
+            ['appointment' => Appointment::find($id)]
+        );
     }
 
-    public function create() {
-        return view('create_appointment');
+    public function create()
+    {
+        return view('pages.appointment.create');
     }
 
+    public function store(Request $request)
+    {
+        $newAppointment = $request->all();
+        if (Appointment::create($newAppointment))
+            return redirect('/appointments');
+        else dd("Erro ao criar consulta!!");
+    }
 
-    public function store(Request $request) {
-        $appointmentModel = new Appointment();
-        $appointmentModel->description = $request->description;
-        $appointmentModel->date = $request->date;
-        $appointmentModel->type = $request->type;
+    public function edit($id)
+    {
+        return view('pages.appointment.edit', ['appointment' => Appointment::find($id)]);
+    }
 
-        $appointmentModel->save();
+    public function update(Request $request, $id)
+    {
+        $updatedAppointment = $request->all();
+
+        if (!Appointment::find($id)->update($updatedAppointment))
+            dd("Erro ao atualizar consulta $id!");
+        return redirect('/dashboard');
+    }
+
+    public function delete($id)
+    {
+        return view(
+            'pages.appointment.delete',
+            ['appointment' => Appointment::find($id)]
+        );
+    }
+
+    public function remove(Request $request, $id)
+    {
+        if ($request->confirmar == 'Deletar')
+            if (!Appointment::destroy($id))
+                dd("Error ao deletar consulta $id.");
         return redirect('/appointments');
-    }
-
-    public function edit($id) {
-        $appointment = ['appointment' => Appointment::find($id)];
-        return view('update_appointment', $appointment);
-    }
-
-    public function update(Request $request, $id) {
-        $params = $request->all();
-        $appointment = Appointment::find($id);
-            
-        $appointment->description = $params['description'];
-        $appointment->date = $params['date'];
-        $appointment->type = $params['type'];
-
-        if (!$appointment->save()) {
-            return response()->json(['error' => 'Não foi possível atualizar a consulta.'], 500);
-        }
-
-        return redirect('/appointments');
-    }
-
-    public function destroy($id) {
-        if (!Appointment::destroy($id)) return response()->json(['error' => 'Não foi possível deletar a consulta.'], 500); 
-        else return redirect('/appointments');
     }
 }
