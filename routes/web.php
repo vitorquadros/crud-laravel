@@ -5,26 +5,22 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\VaccineController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Appointment;
+use App\Models\Vaccine;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// DASHBOARD
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('dashboard', ['appointments' => Appointment::all(), 'vaccines' => Vaccine::all()]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// PROFILE
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,61 +28,70 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+require __DIR__.'/auth.php';
+
 // ----------------- DOCTORS -----------------
 
-// GET ALL
-Route::get('/doctors', [DoctorController::class, 'index']);
+Route::controller(ProdutoController::class)->group(function () {
+    Route::prefix('/doctors')->group(function () {
+        Route::get('/', 'index')->name('doctors');
+        Route::get('/{id}', 'show');
+    });
 
-// CREATE
-Route::get('/doctors/create', [DoctorController::class, 'create']);
-Route::post('/doctors', [DoctorController::class, 'store']);
+    Route::prefix('/doctor')->middleware('auth')->group(function () {
+        Route::get('/', 'create');
+        Route::post('/', 'store');
 
-// GET ONE
-Route::get('/doctors/{id}', [DoctorController::class, 'show']);
+        Route::get('/{id}/edit', 'edit')->name('edit_doctor');
+        Route::post('/{id}/update', 'update')->name('update_doctor');
 
-// UPDATE
-Route::get('/doctors/update/${id}', [DoctorController::class, 'edit'])->name('edit');
-Route::post('/doctors/{id}', [DoctorController::class, 'update'])->name('update');
+        Route::get('/{id}/delete', 'delete')->name('delete_doctor');
+        Route::post('/{id}/remove', 'remove')->name('remove_doctor');
+    });
+});
 
-// DELETE
-Route::get('/doctors/delete/{id}', [DoctorController::class, 'destroy'])->name('delete');
 
 // ----------------- VACCINES -----------------
 
-// GET ALL
-Route::get('/vaccines', [VaccineController::class, 'index']);
+Route::controller(VaccineController::class)->group(function () {
+    Route::prefix('/vaccines')->group(function () {
+        Route::get('/', 'index')->name('vaccines');
+        Route::get('/{id}', 'show');
+    });
 
-// CREATE
-Route::get('/vaccines/create', [VaccineController::class, 'create']);
-Route::post('/vaccines', [VaccineController::class, 'store']);
+    Route::prefix('/vaccine')->middleware('auth')->group(function () {
+        Route::get('/', 'create');
+        Route::post('/', 'store');
 
-// GET ONE
-Route::get('/vaccines/{id}', [VaccineController::class, 'show']);
+        Route::get('/{id}/edit', 'edit')->name('edit_vaccine');
+        Route::post('/{id}/update', 'update')->name('update_vaccine');
 
-// UPDATE
-Route::get('/vaccines/update/${id}', [VaccineController::class, 'edit'])->name('edit_vaccine');
-Route::post('/vaccines/{id}', [VaccineController::class, 'update'])->name('update_vaccine');
+        Route::get('/{id}/delete', 'delete')->name('delete_vaccine');
+        Route::post('/{id}/remove', 'remove')->name('remove_vaccine');
+    });
+});
 
-// DELETE
-Route::get('/vaccines/delete/{id}', [VaccineController::class, 'destroy'])->name('delete_vaccine');
+
 
 // ----------------- APPOINTMENTS -----------------
 
-// GET ALL
-Route::get('/appointments', [AppointmentController::class, 'index']);
+Route::controller(AppointmentController::class)->group(function () {
+    Route::prefix('/appointments')->group(function () {
+        Route::get('/', 'index')->name('appointments');
+        Route::get('/{id}', 'show');
+    });
 
-// CREATE
-Route::get('/appointments/create', [AppointmentController::class, 'create']);
-Route::post('/appointments', [AppointmentController::class, 'store']);
+    Route::prefix('/appointment')->middleware('auth')->group(function () {
+        Route::get('/', 'create');
+        Route::post('/', 'store');
 
-// GET ONE
-Route::get('/appointments/{id}', [AppointmentController::class, 'show']);
+        Route::get('/{id}/edit', 'edit')->name('edit_appointment');
+        Route::post('/{id}/update', 'update')->name('update_appointment');
 
-// UPDATE
-Route::get('/appointments/update/${id}', [AppointmentController::class, 'edit'])->name('edit_appointment');
-Route::post('/appointments/{id}', [AppointmentController::class, 'update'])->name('update_appointment');
+        Route::get('/{id}/delete', 'delete')->name('delete_appointment');
+        Route::post('/{id}/remove', 'remove')->name('remove_appointment');
+    });
+});
 
-// DELETE
-Route::get('/appointments/delete/{id}', [AppointmentController::class, 'destroy'])->name('delete_appointment');
 
-require __DIR__.'/auth.php';
