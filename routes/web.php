@@ -8,12 +8,13 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Appointment;
 use App\Models\Vaccine;
 use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landing', ['doctors' => Doctor::all()]);
+})->name('landing');
 
 // DASHBOARD
 
@@ -46,7 +47,7 @@ require __DIR__.'/auth.php';
 Route::controller(ProdutoController::class)->group(function () {
     Route::prefix('/doctors')->group(function () {
         Route::get('/', 'index')->name('doctors');
-        Route::get('/{id}', 'show');
+        Route::get('/{id}', 'show')->name('single-doctor');
     });
 
     Route::prefix('/doctor')->middleware('auth')->group(function () {
