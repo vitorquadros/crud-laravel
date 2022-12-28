@@ -8,12 +8,13 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Appointment;
 use App\Models\Vaccine;
 use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landing', ['doctors' => Doctor::all()]);
+})->name('landing');
 
 // DASHBOARD
 
@@ -43,10 +44,17 @@ require __DIR__.'/auth.php';
 
 // ----------------- DOCTORS -----------------
 
-Route::controller(ProdutoController::class)->group(function () {
+
+// livewire
+Route::get('/dashboard/doctor/{id}', function ($id) {
+    return view('pages.doctor.single-dash',['doctor'=>Doctor::find($id) ]);
+})->middleware(['auth', 'verified'])->name('doctor.single-dash');
+// ----------
+
+Route::middleware('auth')->controller(DoctorController::class)->group(function () {
     Route::prefix('/doctors')->group(function () {
         Route::get('/', 'index')->name('doctors');
-        Route::get('/{id}', 'show');
+        Route::get('/{id}', 'show')->name('single-doctor');
     });
 
     Route::prefix('/doctor')->middleware('auth')->group(function () {
@@ -64,7 +72,13 @@ Route::controller(ProdutoController::class)->group(function () {
 
 // ----------------- VACCINES -----------------
 
-Route::controller(VaccineController::class)->group(function () {
+// livewire
+Route::get('/dashboard/vaccine/{id}', function ($id) {
+    return view('pages.vaccine.single-dash',['vaccine'=>Vaccine::find($id) ]);
+})->middleware(['auth', 'verified'])->name('vaccine.single-dash');
+// ----------
+
+Route::middleware('auth')->controller(VaccineController::class)->group(function () {
     Route::prefix('/vaccines')->group(function () {
         Route::get('/', 'index')->name('vaccines');
         Route::get('/{id}', 'show');
@@ -86,7 +100,13 @@ Route::controller(VaccineController::class)->group(function () {
 
 // ----------------- APPOINTMENTS -----------------
 
-Route::controller(AppointmentController::class)->group(function () {
+// livewire
+Route::get('/dashboard/appointment/{id}', function ($id) {
+    return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
+})->middleware(['auth', 'verified'])->name('appointment.single-dash');
+// ----------
+
+Route::middleware('auth')->controller(AppointmentController::class)->group(function () {
     Route::prefix('/appointments')->group(function () {
         Route::get('/', 'index')->name('appointments');
         Route::get('/{id}', 'show');

@@ -2,7 +2,7 @@
 <div class="text-center mt-8">
     @vite('resources/css/show-appointment.css')
     @if ($appointment)
-        <h1 class='my-12 text-4xl font-bold'>{{ $appointment->description }}</h1>
+        <h1 class='my-12 text-4xl font-bold'>{{ $appointment->type }}</h1>
         <p>{{ $appointment->description }}</p>
         <table>
             </thead>

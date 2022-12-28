@@ -2,36 +2,36 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Appointment;
+use App\Models\Vaccine;
 use Exception;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
 
-class Appointments extends Component
+class Vaccines extends Component
 {
-    public $appointments;
+    public $vaccines;
     public $orderAsc = true;
     public $orderColumn = 'id';
 
-    public $description;
-    public $type;
-    public $date;
+    public $name;
+    public $expected_date;
+    public $application_date;
 
     public function render()
     {
-        return view('livewire.appointments');
+        return view('livewire.vaccines');
     }
 
     public function save()
     {
-        $appointment = [
-            "description" => $this->description,
-            "date" => $this->date,
-            "type" => $this->type
+        $vaccine = [
+            "name" => $this->name,
+            "expected_date" => $this->expected_date,
+            "application_date" => $this->application_date
         ];
 
         try {
-            Appointment::create($appointment);
+            Vaccine::create($vaccine);
             $this->clear();
             $this->orderAsc = false;
             $this->orderBy();
@@ -43,13 +43,13 @@ class Appointments extends Component
     public function update($id)
     {
 
-        $appointment = [
-            'description' => $this->description,
-            'date' => $this->date,
-            'type' => $this->type
+        $vaccine = [
+            'name' => $this->name,
+            'expected_date' => $this->expected_date,
+            'application_date' => $this->application_date
         ];
 
-        Appointment::findOrFail($id)->update($appointment);
+        Vaccine::findOrFail($id)->update($vaccine);
         $this->orderAsc = !$this->orderAsc;
         $this->orderBy($this->orderColumn);
         $this->clear();
@@ -58,13 +58,13 @@ class Appointments extends Component
     private function clear()
     {
         $this->name = '';
-        $this->crm = '';
-        $this->email = '';
+        $this->expected_date = '';
+        $this->application_date = '';
     }
 
     public function remove($id)
     {
-        if (!Appointment::destroy($id))
+        if (!Vaccine::destroy($id))
             return "Erro!";
         $this->orderAsc = !$this->orderAsc;
         $this->orderBy($this->orderColumn);
@@ -73,7 +73,7 @@ class Appointments extends Component
     public function orderBy($column = 'id')
     {
         $this->orderColumn = $column;
-        $this->appointments = Appointment::orderBy(
+        $this->vaccines = Vaccine::orderBy(
             $this->orderColumn,
             $this->orderAsc ? 'asc' : 'desc'
         )->get();
@@ -82,12 +82,7 @@ class Appointments extends Component
         Log::channel('stderr')->info($this->orderAsc ? 'asc' : 'desc');
     }
 
-    public function orderByDescription(){
-        $this->orderBy('description');
-    }
-
-    public function orderByType()
-    {
-        $this->orderBy('type');
+    public function orderByName(){
+        $this->orderBy('name');
     }
 }

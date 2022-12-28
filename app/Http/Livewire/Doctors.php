@@ -2,36 +2,36 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Appointment;
+use App\Models\Doctor;
 use Exception;
 use Livewire\Component;
 use Illuminate\Support\Facades\Log;
 
-class Appointments extends Component
+class Doctors extends Component
 {
-    public $appointments;
+    public $doctors;
     public $orderAsc = true;
     public $orderColumn = 'id';
 
-    public $description;
-    public $type;
-    public $date;
+    public $name;
+    public $crm;
+    public $email;
 
     public function render()
     {
-        return view('livewire.appointments');
+        return view('livewire.doctors');
     }
 
     public function save()
     {
-        $appointment = [
-            "description" => $this->description,
-            "date" => $this->date,
-            "type" => $this->type
+        $doctor = [
+            "name" => $this->name,
+            "crm" => $this->crm,
+            "email" => $this->email
         ];
 
         try {
-            Appointment::create($appointment);
+            Doctor::create($doctor);
             $this->clear();
             $this->orderAsc = false;
             $this->orderBy();
@@ -43,13 +43,13 @@ class Appointments extends Component
     public function update($id)
     {
 
-        $appointment = [
-            'description' => $this->description,
-            'date' => $this->date,
-            'type' => $this->type
+        $doctor = [
+            'name' => $this->name,
+            'crm' => $this->crm,
+            'email' => $this->email
         ];
 
-        Appointment::findOrFail($id)->update($appointment);
+        Doctor::findOrFail($id)->update($doctor);
         $this->orderAsc = !$this->orderAsc;
         $this->orderBy($this->orderColumn);
         $this->clear();
@@ -64,7 +64,7 @@ class Appointments extends Component
 
     public function remove($id)
     {
-        if (!Appointment::destroy($id))
+        if (!Doctor::destroy($id))
             return "Erro!";
         $this->orderAsc = !$this->orderAsc;
         $this->orderBy($this->orderColumn);
@@ -73,7 +73,7 @@ class Appointments extends Component
     public function orderBy($column = 'id')
     {
         $this->orderColumn = $column;
-        $this->appointments = Appointment::orderBy(
+        $this->doctors = Doctor::orderBy(
             $this->orderColumn,
             $this->orderAsc ? 'asc' : 'desc'
         )->get();
@@ -82,12 +82,12 @@ class Appointments extends Component
         Log::channel('stderr')->info($this->orderAsc ? 'asc' : 'desc');
     }
 
-    public function orderByDescription(){
-        $this->orderBy('description');
+    public function orderByName(){
+        $this->orderBy('name');
     }
 
-    public function orderByType()
+    public function orderByCrm()
     {
-        $this->orderBy('type');
+        $this->orderBy('crm');
     }
 }

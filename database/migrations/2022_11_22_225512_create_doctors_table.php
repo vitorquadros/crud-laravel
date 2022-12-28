@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->text('name');
             $table->text('email');
-            $table->text('password');
             $table->text('crm');
             $table->timestamps();
         });

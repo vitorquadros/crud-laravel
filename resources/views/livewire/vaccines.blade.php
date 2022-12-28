@@ -1,9 +1,9 @@
 <div x-data="{ open: false }">
     
-    @if (isset($appointments))
+    @if (isset($vaccines))
     
         <div style="display:flex; flex-direction: row; justify-content:flex-end">
-            <button @click="open = true">Criar Nova Consulta</button>
+            <button @click="open = true">Criar Novo registro de Vacina</button>
         </div>
 
         <!-- CONTEÚDO DO MODAL-->
@@ -14,24 +14,24 @@
 
                 <div class="flex rounded-md p-5 justify-center flex-col w-1/2 min-w-min pt-10 mt-10 bg-white"
                     @click.away="open = false">
-                    <h1 class='text-center text-2xl font-bold'>Inserir nova consulta</h1>
+                    <h1 class='text-center text-2xl font-bold'>Inserir nova Vacina</h1>
                     <form id=create @submit.prevent="$wire.save()" method="POST">
                         @csrf
                         {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"/> --}}
                         <table>
                             <tr>
-                                <td>Descrição:</td>
-                                <td><input wire:model="description" type="text" name="description" /></td>
+                                <td>Nome:</td>
+                                <td><input wire:model="name" type="text" name="name" /></td>
                             </tr>
                             <tr>
-                                <td>Data:</td>
+                                <td>Data de aplicação esperada:</td>
                                 <td>
-                                    <input wire:model="date" name="date" type="text" />
+                                    <input wire:model="expected_date" placeholder="YYYY-MM-DD" name="expected_date" type="text" />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Área</td>
-                                <td><input type="text" wire:model='type' name="type" /></td>
+                                <td>Data de aplicação:</td>
+                                <td><input type="text" wire:model='application_date' placeholder="YYYY-MM-DD" name="application_date" /></td>
                             </tr>
                         </table>
                     </form>
@@ -43,13 +43,13 @@
                 </div>
             </div>
         </div>
-        @if ($appointments->count() > 0)
-        <x-tables.appointments-live :appointments="$appointments" class='table-odd' type='hover' />
+        @if ($vaccines->count() > 0)
+        <x-tables.vaccines-live :vaccines="$vaccines" class='table-odd' type='hover' />
         @else
-        <p>Consultas não encontradas! </p>
+        <p>Vacinas não encontradas! </p>
         @endif
     @else
-        <p>Consultas não encontradas! </p>
+    <p>Vacinas não encontradas! </p>
         
     @endif
 </div>
