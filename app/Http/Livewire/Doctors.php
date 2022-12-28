@@ -13,7 +13,7 @@ class Doctors extends Component
     public $orderAsc = true;
     public $orderColumn = 'id';
 
-    public $nome;
+    public $name;
     public $crm;
     public $email;
 
@@ -36,7 +36,7 @@ class Doctors extends Component
             $this->orderAsc = false;
             $this->orderBy();
         } catch (Exception $e) {
-            dd('Erro ao inserir');
+            dd($e);
         }
     }
 

@@ -52,9 +52,9 @@
         id="{{'modal-rm-'.$doctor->id}}"
         trigger="idmodal"
         >
-        <x-slot name="title">{{$doctor->nome.' ('.$produto->id.')'}}</x-slot>
-        <x-modals.forms.produto-remove :produto="$produto"/>
-    </x-forms.produto-modal>
+        <x-slot name="title">{{$doctor->nome.' ('.$doctor->id.')'}}</x-slot>
+        <x-modals.forms.doctor-remove :doctor="$doctor"/>
+    </x-forms.doctor-modal>
 @endforeach
 @foreach ($doctors as $doctor)
     <x-modals.doctor-modal

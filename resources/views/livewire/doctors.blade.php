@@ -19,12 +19,12 @@
                         <table>
                             <tr>
                                 <td>Nome:</td>
-                                <td><input wire:model='name' type="text" name="name" /></td>
+                                <td><input wire:model="name" type="text" name="name" /></td>
                             </tr>
                             <tr>
                                 <td>CRM:</td>
                                 <td>
-                                    <input wire:model='crm' name="crm" type="text" />
+                                    <input wire:model="crm" name="crm" type="text" />
                                 </td>
                             </tr>
                             <tr>
