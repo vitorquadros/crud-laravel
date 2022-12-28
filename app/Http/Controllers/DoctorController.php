@@ -1,70 +1,68 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-use App\Models\Doctor;
 use Illuminate\Http\Request;
+use App\Models\Doctor;
 
 class DoctorController extends Controller
 {
     public function index()
     {
-        $doctorModel = new Doctor();
-        $doctors = $doctorModel->all();
-        if ($doctors->count() < 1) {
-            return view('notfound', ['reason' => 'Médicos', 'page' => 'doctors']);
-        }
-
-        return view('doctors', ['doctors' => $doctors]);
+        $modelDoctor = new Doctor();
+        $doctors = $modelDoctor->all();
+        return view('pages.doctor.index',
+        ['doctors' => $doctors]);
     }
 
     public function show($id)
     {
-        $doctorModel = new Doctor();
-        $doctor = Doctor::find($id);
-        
-        return view('show_doctor', ['doctor' => $doctor]);
+        return view(
+            'pages.doctor.single',
+            ['doctor' => Doctor::find($id)]
+        );
     }
 
-    public function create() {
-        return view('create_doctor');
+    public function create()
+    {
+        return view('pages.doctor.create');
     }
 
-    public function store(Request $request) {
-        $doctorModel = new Doctor();
-        $doctorModel->name = $request->name;
-        $doctorModel->crm = $request->crm;
-        $doctorModel->email = $request->email;
-        $doctorModel->password = $request->password;
-
-        $doctorModel->save();
-        return redirect('/doctors');
+    public function store(Request $request)
+    {
+        $newDoctor = $request->all();
+        if (Doctor::create($newDoctor))
+            return redirect('/dashboard');
+        else dd("Erro ao criar médico!!");
     }
 
-    public function edit($id) {
-        $doctor = ['doctor' => Doctor::find($id)];
-        return view('update_doctor', $doctor);
+    public function edit($id)
+    {
+        return view('pages.doctor.edit', ['doctor' => Doctor::find($id)]);
     }
 
-    public function update(Request $request, $id) {
-        $params = $request->all();
-        $doctor = Doctor::find($id);
-            
-        $doctor->name = $params['name'];
-        $doctor->crm = $params['crm'];
-        $doctor->email = $params['email'];
-        $doctor->password = $params['password'];
+    public function update(Request $request, $id)
+    {
+        $updatedDoctor = $request->all();
 
-        if (!$doctor->save()) {
-            return response()->json(['error' => 'Não foi possível atualizar o médico.'], 500);
-        }
-
-        return redirect('/doctors');
+        if (!Doctor::find($id)->update($updatedDoctor))
+            dd("Erro ao atualizar médico $id!");
+        return redirect('/dashboard');
     }
 
-    public function destroy($id) {
-        if (!Doctor::destroy($id)) return response()->json(['error' => 'Não foi possível deletar o médico.'], 500); 
-        else return redirect('/doctors');
+    public function delete($id)
+    {
+        return view(
+            'pages.doctor.delete',
+            ['doctor' => Doctor::find($id)]
+        );
+    }
+
+    public function remove(Request $request, $id)
+    {
+        if ($request->confirmar == 'Deletar')
+            if (!Doctor::destroy($id))
+                dd("Error ao deletar médico $id.");
+        return redirect('/dashboard');
     }
 }

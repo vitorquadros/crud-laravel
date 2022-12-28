@@ -44,7 +44,7 @@ require __DIR__.'/auth.php';
 
 // ----------------- DOCTORS -----------------
 
-Route::controller(ProdutoController::class)->group(function () {
+Route::controller(DoctorController::class)->group(function () {
     Route::prefix('/doctors')->group(function () {
         Route::get('/', 'index')->name('doctors');
         Route::get('/{id}', 'show')->name('single-doctor');

@@ -11,12 +11,10 @@
                 <div class="p-6 text-gray-900">
                     <h2 class='text-4xl'>Consultas</h2>
                     @if (isset($appointments) && $appointments->count() > 0)
+                        <div style="display:flex; flex-direction: row; justify-content:flex-end">
+                            <a href="/appointment"><button>Criar Nova Consulta</button></a>
+                        </div>
                         <x-tables.appointments :appointments="$appointments" class='table-odd' type='hover'/>
-                        @auth
-                            <div style="display:flex; flex-direction: row; justify-content:flex-end">
-                                <a href="/appointment"><button>Criar Nova Consulta</button></a>
-                            </div>
-                        @endauth
                     @else
                         <p>Consultas não encontradas! </p>
                     @endif
