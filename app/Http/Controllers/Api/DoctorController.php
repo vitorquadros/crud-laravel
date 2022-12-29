@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\Appointment;
+use App\Http\Requests\DoctorRequest;
 
 class DoctorController extends Controller
 {
@@ -22,7 +23,7 @@ class DoctorController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(DoctorRequest $request)
     {
         try {
             if (!$request->user()->tokenCan('is-admin')) {
@@ -43,9 +44,13 @@ class DoctorController extends Controller
     }
 
   
-    public function update(Request $request, $id)
+    public function update(DoctorRequest $request, $id)
     {
         try {
+            if (!$request->user()->tokenCan('is-admin')) {
+                return response()->json(['error' => 'Você não tem permissão para atualizar médicos!'], 403);
+            }
+
             $doctor = $this->doctor->findOrFail($id);
             $doctor->update($request->all());
             return response()->json(['message' => 'Médico atualizado com sucesso!' ,'doctor' => $doctor], 200);

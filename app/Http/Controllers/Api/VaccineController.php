@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Vaccine;
+use App\Http\Requests\VaccineRequest;
 
 class VaccineController extends Controller
 {
@@ -20,7 +21,7 @@ class VaccineController extends Controller
             return $this->vaccine->all();
         }
     
-        public function store(Request $request)
+        public function store(VaccineRequest $request)
         {
             try {
                 if (!$request->user()->tokenCan('is-admin')) {
@@ -39,9 +40,13 @@ class VaccineController extends Controller
             return $vaccine;
         }
     
-        public function update(Request $request, $id)
+        public function update(VaccineRequest $request, $id)
         {
             try {
+                if (!$request->user()->tokenCan('is-admin')) {
+                    return response()->json(['error' => 'Você não tem permissão para atualizar vacinas!'], 403);
+                }
+
                 $vaccine = $this->vaccine->findOrFail($id);
                 $vaccine->update($request->all());
                 return response()->json(['message' => 'Vacina atualizada com sucesso!' ,'vaccine' => $vaccine], 200);
