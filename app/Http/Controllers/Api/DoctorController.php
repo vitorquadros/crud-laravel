@@ -25,6 +25,10 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         try {
+            if (!$request->user()->tokenCan('is-admin')) {
+                return response()->json(['error' => 'Você não tem permissão para criar médicos!'], 403);
+            }
+            
             $doctor = $this->doctor->create($request->all());
             return response()->json(['message' => 'Médico inserido com sucesso!' ,'doctor' => $doctor], 201);
         } catch (\Exception $e) {

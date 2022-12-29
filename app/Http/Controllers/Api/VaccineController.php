@@ -23,6 +23,10 @@ class VaccineController extends Controller
         public function store(Request $request)
         {
             try {
+                if (!$request->user()->tokenCan('is-admin')) {
+                    return response()->json(['error' => 'Você não tem permissão para criar vacinas!'], 403);
+                }
+                
                 $vaccine = $this->vaccine->create($request->all());
                 return response()->json(['message' => 'Vacina inserida com sucesso!' ,'vaccine' => $vaccine], 201);
             } catch (\Exception $e) {

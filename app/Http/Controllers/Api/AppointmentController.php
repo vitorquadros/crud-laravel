@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Http\Requests\AppointmentRequest;
 
 class AppointmentController extends Controller
 {
@@ -18,12 +19,18 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        return $this->appointment->all();
+        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
+        $appointments = $this->appointment->paginate($perPage);
+        $appointments->appends(['per_page' => $perPage]);
+        return response()->json($appointments, 200);
     }
 
-    public function store(Request $request)
+    public function store(AppointmentRequest $request)
     {
         try {
+            if (!$request->user()->tokenCan('is-admin')) {
+                return response()->json(['error' => 'Você não tem permissão para criar consultas!'], 403);
+            }
             $appointment = $this->appointment->create($request->all());
             return response()->json(['message' => 'Consulta inserida com sucesso!' ,'appointment' => $appointment], 201);
         } catch (\Exception $e) {

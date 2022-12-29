@@ -179,6 +179,7 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.appointments (
     id bigint NOT NULL,
+    doctor_id bigint NOT NULL,
     description text NOT NULL,
     date date NOT NULL,
     type text NOT NULL,
@@ -218,7 +219,6 @@ CREATE TABLE public.doctors (
     id bigint NOT NULL,
     name text NOT NULL,
     email text NOT NULL,
-    password text NOT NULL,
     crm text NOT NULL,
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone
@@ -385,6 +385,7 @@ CREATE TABLE public.users (
     email character varying(255) NOT NULL,
     email_verified_at timestamp(0) without time zone,
     password character varying(255) NOT NULL,
+    is_admin boolean DEFAULT false NOT NULL,
     remember_token character varying(100),
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone
@@ -423,7 +424,6 @@ CREATE TABLE public.vaccines (
     name text NOT NULL,
     expected_date date NOT NULL,
     application_date date,
-    is_future boolean NOT NULL,
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone
 );
@@ -505,11 +505,18 @@ ALTER TABLE ONLY public.vaccines ALTER COLUMN id SET DEFAULT nextval('public.vac
 -- Data for Name: appointments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.appointments (id, description, date, type, created_at, updated_at) FROM stdin;
-2	Consulta 1	2022-12-05	Fisioterapia	2022-11-23 00:32:48	2022-11-23 00:32:48
-3	Consulta 2	2022-12-10	Ortopedia	2022-11-23 00:33:01	2022-11-23 00:33:01
-4	Consulta 3	2022-12-12	Psicologia	2022-11-23 00:33:15	2022-11-23 00:33:15
-5	Consulta 4	2022-12-13	Psicologia	2022-11-23 00:33:21	2022-11-23 00:33:21
+COPY public.appointments (id, doctor_id, description, date, type, created_at, updated_at) FROM stdin;
+1	1	Consulta de rotina	2022-12-29	Fisioterapia	2022-12-29 19:57:13	2022-12-29 19:57:13
+2	2	Consulta de retorno	2022-12-29	Odontologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+3	3	Consulta de rotina	2022-12-29	Psicologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+4	4	Consulta de checkup	2022-12-29	Nutrição	2022-12-29 19:57:13	2022-12-29 19:57:13
+5	5	Consulta de checkup	2022-12-29	Fonoaudiologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+6	5	Consulta de Teste	2022-12-29	Fisioterapia	2022-12-29 19:57:13	2022-12-29 19:57:13
+7	3	Consulta de sexta-feira	2022-12-29	Odontologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+8	3	Consulta de manhã	2022-12-29	Psicologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+9	1	Consulta anual	2022-12-29	Nutrição	2022-12-29 19:57:13	2022-12-29 19:57:13
+10	2	Consulta mensal	2022-12-29	Fonoaudiologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+11	5	Andddt	2022-12-17	2022-12-12	2022-12-29 20:02:47	2022-12-29 20:02:47
 \.
 
 
@@ -517,10 +524,12 @@ COPY public.appointments (id, description, date, type, created_at, updated_at) F
 -- Data for Name: doctors; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.doctors (id, name, email, password, crm, created_at, updated_at) FROM stdin;
-1	Dr. House	test@dev.com	123456	123	2022-11-23 00:25:26	2022-11-23 00:25:26
-2	Dr. Wilson	test@dev.com	123456	1234	2022-11-23 00:25:32	2022-11-23 00:25:32
-3	Dr. Drauzio Varella	test@dev.com	123456	123456	2022-11-23 00:25:41	2022-11-23 00:25:41
+COPY public.doctors (id, name, email, crm, created_at, updated_at) FROM stdin;
+1	Dr. House	default@dev.com	934639	2022-12-29 19:57:13	2022-12-29 19:57:13
+2	Dr. Wilson	default@dev.com	938720	2022-12-29 19:57:13	2022-12-29 19:57:13
+3	Dr. Linux	default@dev.com	664784	2022-12-29 19:57:13	2022-12-29 19:57:13
+4	Dr. Drauzio Varella	default@dev.com	149014	2022-12-29 19:57:13	2022-12-29 19:57:13
+5	Dr. Laravel	default@dev.com	576023	2022-12-29 19:57:13	2022-12-29 19:57:13
 \.
 
 
@@ -561,6 +570,8 @@ COPY public.password_resets (email, token, created_at) FROM stdin;
 --
 
 COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, token, abilities, last_used_at, expires_at, created_at, updated_at) FROM stdin;
+1	App\\Models\\User	11	test@dev.com	39a519e79185782c24d765c26faa5da5d97c4137d8c600c2c7c64614623b89bd	[]	2022-12-29 20:02:14	\N	2022-12-29 20:02:02	2022-12-29 20:02:14
+2	App\\Models\\User	12	admin@dev.com	67f3654bc9a23f8d29b4ce6b06cd6c65e8a4a8532fd523c7933850e3614f9771	["is-admin"]	2022-12-29 20:02:46	\N	2022-12-29 20:02:40	2022-12-29 20:02:46
 \.
 
 
@@ -568,7 +579,20 @@ COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, toke
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at) FROM stdin;
+COPY public.users (id, name, email, email_verified_at, password, is_admin, remember_token, created_at, updated_at) FROM stdin;
+1	Prof. Riley Marvin	roselyn17@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	y3l2vW5IaU	2022-12-29 19:57:12	2022-12-29 19:57:12
+2	Dr. Modesto Rice Jr.	ghamill@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	77h8msLWyK	2022-12-29 19:57:12	2022-12-29 19:57:12
+3	Queenie Zulauf	joany21@example.org	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	PDGU5nKAcH	2022-12-29 19:57:12	2022-12-29 19:57:12
+4	Carmel Schultz	marie.frami@example.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	upJ2DeAITJ	2022-12-29 19:57:12	2022-12-29 19:57:12
+5	April Walter IV	matilde.dach@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	MNCbhdLkDA	2022-12-29 19:57:12	2022-12-29 19:57:12
+6	Shaniya Hammes MD	block.shane@example.org	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	E24ZxHntdI	2022-12-29 19:57:12	2022-12-29 19:57:12
+7	Miss Amalia Kuhlman Sr.	ethan.stiedemann@example.org	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	v85xN68wzx	2022-12-29 19:57:12	2022-12-29 19:57:12
+8	Dr. Clifton Collins	fdietrich@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	XldjPUtViR	2022-12-29 19:57:12	2022-12-29 19:57:12
+9	Alessia Hermiston PhD	vella51@example.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	VjrLgoZHCF	2022-12-29 19:57:12	2022-12-29 19:57:12
+10	Tyrique Jones	nikolas.jakubowski@example.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	YUTkw93MGc	2022-12-29 19:57:12	2022-12-29 19:57:12
+11	Usuário de Teste	test@dev.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	hmF5fxQ5hT	2022-12-29 19:57:12	2022-12-29 19:57:12
+12	Admin	admin@dev.com	2022-12-29 19:57:13	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	t	kzfJzJ1U9b	2022-12-29 19:57:13	2022-12-29 19:57:13
+13	Admin 2	admin@admmin.com	\N	$2y$10$BG6StNLoU4BPe8gQ/oyvuu8TRQLqBhm07pHvPupW91qzZB5R3dqyS	t	\N	2022-12-29 19:58:53	2022-12-29 19:58:53
 \.
 
 
@@ -576,10 +600,12 @@ COPY public.users (id, name, email, email_verified_at, password, remember_token,
 -- Data for Name: vaccines; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.vaccines (id, name, expected_date, application_date, is_future, created_at, updated_at) FROM stdin;
-3	Covid 19 - Segunda dose	2022-12-15	\N	t	2022-11-23 00:24:08	2022-11-23 00:24:08
-4	Antitetânica	2025-02-07	\N	t	2022-11-23 00:24:27	2022-11-23 00:24:27
-2	Covid 19 - Primeira dose	2022-11-25	2022-11-28	f	2022-11-23 00:24:01	2022-11-23 00:24:01
+COPY public.vaccines (id, name, expected_date, application_date, created_at, updated_at) FROM stdin;
+1	Covid - 1a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+2	Covid - 2a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+3	Covid - 3a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+4	Covid - 4a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+5	Antitetânica	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
 \.
 
 
@@ -587,14 +613,14 @@ COPY public.vaccines (id, name, expected_date, application_date, is_future, crea
 -- Name: appointments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.appointments_id_seq', 5, true);
+SELECT pg_catalog.setval('public.appointments_id_seq', 11, true);
 
 
 --
 -- Name: doctors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.doctors_id_seq', 3, true);
+SELECT pg_catalog.setval('public.doctors_id_seq', 5, true);
 
 
 --
@@ -615,21 +641,21 @@ SELECT pg_catalog.setval('public.migrations_id_seq', 8, true);
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 1, false);
+SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 2, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_id_seq', 13, true);
 
 
 --
 -- Name: vaccines_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.vaccines_id_seq', 4, true);
+SELECT pg_catalog.setval('public.vaccines_id_seq', 5, true);
 
 
 --
@@ -724,6 +750,14 @@ CREATE INDEX password_resets_email_index ON public.password_resets USING btree (
 --
 
 CREATE INDEX personal_access_tokens_tokenable_type_tokenable_id_index ON public.personal_access_tokens USING btree (tokenable_type, tokenable_id);
+
+
+--
+-- Name: appointments appointments_doctor_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.appointments
+    ADD CONSTRAINT appointments_doctor_id_foreign FOREIGN KEY (doctor_id) REFERENCES public.doctors(id) ON DELETE CASCADE;
 
 
 --

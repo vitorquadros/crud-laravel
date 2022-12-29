@@ -15,11 +15,19 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
+        
+
         \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'Usuário de Teste',
             'email' => 'test@dev.com',
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@dev.com',
+            'is_admin' => true
         ]);
 
         $seedDoctor = new DoctorSeeder();

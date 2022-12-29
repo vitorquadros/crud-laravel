@@ -12,116 +12,116 @@ use App\Models\Doctor;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-    return view('landing', ['doctors' => Doctor::all()]);
-})->name('landing');
+// Route::get('/', function () {
+//     return view('landing', ['doctors' => Doctor::all()]);
+// })->name('landing');
 
-// DASHBOARD
+// // DASHBOARD
 
-Route::get('/dashboard', function () {
-    return view('dashboard', 
-    [
-        'appointments' => Appointment::all(), 
-        'vaccines' => Vaccine::all(), 
-        'users' => User::all()
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard', 
+//     [
+//         'appointments' => Appointment::all(), 
+//         'vaccines' => Vaccine::all(), 
+//         'users' => User::all()
+//     ]);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard/appointment/{id}', function ($id) {
-    return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
-})->middleware(['auth', 'verified'])->name('appointment.single-dash');
+// Route::get('/dashboard/appointment/{id}', function ($id) {
+//     return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
+// })->middleware(['auth', 'verified'])->name('appointment.single-dash');
 
-// PROFILE
+// // PROFILE
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-
-require __DIR__.'/auth.php';
-
-// ----------------- DOCTORS -----------------
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 
-// livewire
-Route::get('/dashboard/doctor/{id}', function ($id) {
-    return view('pages.doctor.single-dash',['doctor'=>Doctor::find($id) ]);
-})->middleware(['auth', 'verified'])->name('doctor.single-dash');
-// ----------
+// require __DIR__.'/auth.php';
 
-Route::middleware('auth')->controller(DoctorController::class)->group(function () {
-    Route::prefix('/doctors')->group(function () {
-        Route::get('/', 'index')->name('doctors');
-        Route::get('/{id}', 'show')->name('single-doctor');
-    });
-
-    Route::prefix('/doctor')->middleware('auth')->group(function () {
-        Route::get('/', 'create');
-        Route::post('/', 'store');
-
-        Route::get('/{id}/edit', 'edit')->name('edit_doctor');
-        Route::post('/{id}/update', 'update')->name('update_doctor');
-
-        Route::get('/{id}/delete', 'delete')->name('delete_doctor');
-        Route::post('/{id}/remove', 'remove')->name('remove_doctor');
-    });
-});
+// // ----------------- DOCTORS -----------------
 
 
-// ----------------- VACCINES -----------------
+// // livewire
+// Route::get('/dashboard/doctor/{id}', function ($id) {
+//     return view('pages.doctor.single-dash',['doctor'=>Doctor::find($id) ]);
+// })->middleware(['auth', 'verified'])->name('doctor.single-dash');
+// // ----------
 
-// livewire
-Route::get('/dashboard/vaccine/{id}', function ($id) {
-    return view('pages.vaccine.single-dash',['vaccine'=>Vaccine::find($id) ]);
-})->middleware(['auth', 'verified'])->name('vaccine.single-dash');
-// ----------
+// Route::middleware('auth')->controller(DoctorController::class)->group(function () {
+//     Route::prefix('/doctors')->group(function () {
+//         Route::get('/', 'index')->name('doctors');
+//         Route::get('/{id}', 'show')->name('single-doctor');
+//     });
 
-Route::middleware('auth')->controller(VaccineController::class)->group(function () {
-    Route::prefix('/vaccines')->group(function () {
-        Route::get('/', 'index')->name('vaccines');
-        Route::get('/{id}', 'show');
-    });
+//     Route::prefix('/doctor')->middleware('auth')->group(function () {
+//         Route::get('/', 'create');
+//         Route::post('/', 'store');
 
-    Route::prefix('/vaccine')->middleware('auth')->group(function () {
-        Route::get('/', 'create');
-        Route::post('/', 'store');
+//         Route::get('/{id}/edit', 'edit')->name('edit_doctor');
+//         Route::post('/{id}/update', 'update')->name('update_doctor');
 
-        Route::get('/{id}/edit', 'edit')->name('edit_vaccine');
-        Route::post('/{id}/update', 'update')->name('update_vaccine');
-
-        Route::get('/{id}/delete', 'delete')->name('delete_vaccine');
-        Route::post('/{id}/remove', 'remove')->name('remove_vaccine');
-    });
-});
+//         Route::get('/{id}/delete', 'delete')->name('delete_doctor');
+//         Route::post('/{id}/remove', 'remove')->name('remove_doctor');
+//     });
+// });
 
 
+// // ----------------- VACCINES -----------------
 
-// ----------------- APPOINTMENTS -----------------
+// // livewire
+// Route::get('/dashboard/vaccine/{id}', function ($id) {
+//     return view('pages.vaccine.single-dash',['vaccine'=>Vaccine::find($id) ]);
+// })->middleware(['auth', 'verified'])->name('vaccine.single-dash');
+// // ----------
 
-// livewire
-Route::get('/dashboard/appointment/{id}', function ($id) {
-    return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
-})->middleware(['auth', 'verified'])->name('appointment.single-dash');
-// ----------
+// Route::middleware('auth')->controller(VaccineController::class)->group(function () {
+//     Route::prefix('/vaccines')->group(function () {
+//         Route::get('/', 'index')->name('vaccines');
+//         Route::get('/{id}', 'show');
+//     });
 
-Route::middleware('auth')->controller(AppointmentController::class)->group(function () {
-    Route::prefix('/appointments')->group(function () {
-        Route::get('/', 'index')->name('appointments');
-        Route::get('/{id}', 'show');
-    });
+//     Route::prefix('/vaccine')->middleware('auth')->group(function () {
+//         Route::get('/', 'create');
+//         Route::post('/', 'store');
 
-    Route::prefix('/appointment')->middleware('auth')->group(function () {
-        Route::get('/', 'create');
-        Route::post('/', 'store');
+//         Route::get('/{id}/edit', 'edit')->name('edit_vaccine');
+//         Route::post('/{id}/update', 'update')->name('update_vaccine');
 
-        Route::get('/{id}/edit', 'edit')->name('edit_appointment');
-        Route::post('/{id}/update', 'update')->name('update_appointment');
+//         Route::get('/{id}/delete', 'delete')->name('delete_vaccine');
+//         Route::post('/{id}/remove', 'remove')->name('remove_vaccine');
+//     });
+// });
 
-        Route::get('/{id}/delete', 'delete')->name('delete_appointment');
-        Route::post('/{id}/remove', 'remove')->name('remove_appointment');
-    });
-});
+
+
+// // ----------------- APPOINTMENTS -----------------
+
+// // livewire
+// Route::get('/dashboard/appointment/{id}', function ($id) {
+//     return view('pages.appointment.single-dash',['appointment'=>Appointment::find($id) ]);
+// })->middleware(['auth', 'verified'])->name('appointment.single-dash');
+// // ----------
+
+// Route::middleware('auth')->controller(AppointmentController::class)->group(function () {
+//     Route::prefix('/appointments')->group(function () {
+//         Route::get('/', 'index')->name('appointments');
+//         Route::get('/{id}', 'show');
+//     });
+
+//     Route::prefix('/appointment')->middleware('auth')->group(function () {
+//         Route::get('/', 'create');
+//         Route::post('/', 'store');
+
+//         Route::get('/{id}/edit', 'edit')->name('edit_appointment');
+//         Route::post('/{id}/update', 'update')->name('update_appointment');
+
+//         Route::get('/{id}/delete', 'delete')->name('delete_appointment');
+//         Route::post('/{id}/remove', 'remove')->name('remove_appointment');
+//     });
+// });
 
 
