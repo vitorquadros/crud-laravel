@@ -50,5 +50,40 @@ class AppointmentSeeder extends Seeder
             'type' => 'Fonoaudiologia',
             'doctor_id' => 5,
         ]);
+
+        \App\Models\Appointment::factory()->create([
+            'description' => 'Consulta de Teste',
+            'date' => now(),
+            'type' => 'Fisioterapia',
+            'doctor_id' => 5,
+        ]);
+
+        \App\Models\Appointment::factory()->create([
+            'description' => 'Consulta de sexta-feira',
+            'date' => now(),
+            'type' => 'Odontologia',
+            'doctor_id' => 3,
+        ]);
+
+        \App\Models\Appointment::factory()->create([
+            'description' => 'Consulta de manhã',
+            'date' => now(),
+            'type' => 'Psicologia',
+            'doctor_id' => 3,
+        ]);
+
+        \App\Models\Appointment::factory()->create([
+            'description' => 'Consulta anual',
+            'date' => now(),
+            'type' => 'Nutrição',
+            'doctor_id' => 1,
+        ]);
+
+        \App\Models\Appointment::factory()->create([
+            'description' => 'Consulta mensal',
+            'date' => now(),
+            'type' => 'Fonoaudiologia',
+            'doctor_id' => 2,
+        ]);
     }
 }
