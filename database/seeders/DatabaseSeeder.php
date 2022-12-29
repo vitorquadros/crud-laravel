@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Usuário de Teste',
             'email' => 'test@dev.com',
         ]);
+
+        $seedAppointment = new AppointmentSeeder();
+        $seedAppointment->run();
     }
 }

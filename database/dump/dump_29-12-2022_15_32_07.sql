@@ -506,10 +506,11 @@ ALTER TABLE ONLY public.vaccines ALTER COLUMN id SET DEFAULT nextval('public.vac
 --
 
 COPY public.appointments (id, description, date, type, created_at, updated_at) FROM stdin;
-2	Consulta 1	2022-12-05	Fisioterapia	2022-11-23 00:32:48	2022-11-23 00:32:48
-3	Consulta 2	2022-12-10	Ortopedia	2022-11-23 00:33:01	2022-11-23 00:33:01
-4	Consulta 3	2022-12-12	Psicologia	2022-11-23 00:33:15	2022-11-23 00:33:15
-5	Consulta 4	2022-12-13	Psicologia	2022-11-23 00:33:21	2022-11-23 00:33:21
+1	Consulta de rotina	2022-12-29	Fisioterapia	2022-12-29 18:31:50	2022-12-29 18:31:50
+2	Consulta de retorno	2022-12-29	Odontologia	2022-12-29 18:31:50	2022-12-29 18:31:50
+3	Consulta de rotina	2022-12-29	Psicologia	2022-12-29 18:31:50	2022-12-29 18:31:50
+4	Consulta de checkup	2022-12-29	Nutrição	2022-12-29 18:31:50	2022-12-29 18:31:50
+5	Consulta de checkup	2022-12-29	Fonoaudiologia	2022-12-29 18:31:50	2022-12-29 18:31:50
 \.
 
 
@@ -518,9 +519,6 @@ COPY public.appointments (id, description, date, type, created_at, updated_at) F
 --
 
 COPY public.doctors (id, name, email, password, crm, created_at, updated_at) FROM stdin;
-1	Dr. House	test@dev.com	123456	123	2022-11-23 00:25:26	2022-11-23 00:25:26
-2	Dr. Wilson	test@dev.com	123456	1234	2022-11-23 00:25:32	2022-11-23 00:25:32
-3	Dr. Drauzio Varella	test@dev.com	123456	123456	2022-11-23 00:25:41	2022-11-23 00:25:41
 \.
 
 
@@ -569,6 +567,7 @@ COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, toke
 --
 
 COPY public.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at) FROM stdin;
+1	Usuário de Teste	test@dev.com	2022-12-29 18:31:50	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	T9G3dYwpS9	2022-12-29 18:31:50	2022-12-29 18:31:50
 \.
 
 
@@ -577,9 +576,6 @@ COPY public.users (id, name, email, email_verified_at, password, remember_token,
 --
 
 COPY public.vaccines (id, name, expected_date, application_date, is_future, created_at, updated_at) FROM stdin;
-3	Covid 19 - Segunda dose	2022-12-15	\N	t	2022-11-23 00:24:08	2022-11-23 00:24:08
-4	Antitetânica	2025-02-07	\N	t	2022-11-23 00:24:27	2022-11-23 00:24:27
-2	Covid 19 - Primeira dose	2022-11-25	2022-11-28	f	2022-11-23 00:24:01	2022-11-23 00:24:01
 \.
 
 
@@ -594,7 +590,7 @@ SELECT pg_catalog.setval('public.appointments_id_seq', 5, true);
 -- Name: doctors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.doctors_id_seq', 3, true);
+SELECT pg_catalog.setval('public.doctors_id_seq', 1, false);
 
 
 --
@@ -622,14 +618,14 @@ SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --
 -- Name: vaccines_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.vaccines_id_seq', 4, true);
+SELECT pg_catalog.setval('public.vaccines_id_seq', 1, false);
 
 
 --
