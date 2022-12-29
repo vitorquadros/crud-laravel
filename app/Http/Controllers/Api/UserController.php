@@ -16,7 +16,7 @@ class UserController extends Controller
         return response()->json(User::all(), 200);
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         try {
             $user = $request->all();
@@ -33,9 +33,13 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
         try {
+            if (!$request->user()->tokenCan('is-admin')) {
+                return response()->json(['error' => 'Você não tem permissão para atualizar usuários!'], 403);
+            }
+
             $user->update($request->all());
             return response()->json(['message' => 'Usuário atualizado com sucesso!' ,'user' => $user], 200);
         } catch (\Exception $e) {

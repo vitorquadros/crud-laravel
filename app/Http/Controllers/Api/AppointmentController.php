@@ -45,9 +45,13 @@ class AppointmentController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(AppointmentRequest $request, $id)
     {
         try {
+            if (!$request->user()->tokenCan('is-admin')) {
+                return response()->json(['error' => 'Você não tem permissão para atualizar consultas!'], 403);
+            }
+            
             $appointment = $this->appointment->findOrFail($id);
             $appointment->update($request->all());
             return response()->json(['message' => 'Consulta atualizada com sucesso!' ,'appointment' => $appointment], 200);

@@ -1,66 +1,49 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center">Atividade Final</h1>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<p align="center">CRUD feito em Laravel de tabelas baseadas em um sistema na área da saúde</p>
 
-## About Laravel
+# :incoming_envelope: API
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<h2>Rotas de Usuários</h2>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   <p><span style="color: #00b050">GET </span>/users - Usada para recuperar todos os usuários cadastrados, pode ser acessada sem autenticação.</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   <p><span style="color: #00b050">GET </span>/users/{user} - Usada para buscar um usuário especifico cadastrado, pode ser acessada sem autenticação.</p>
 
-## Learning Laravel
+-   <p><span style="color: #4472c4">POST </span>/users - Usada para criar um novo usuário, deve ser passado no corpo da requisição as informações do usuário a ser criado (name, email, password). Não precisa de nenhum acesso especial para ser acessada</p>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   <p><span style="color: #7030a0">PUT </span>/users/{user} - Usada para atualizar um usuário cadastrado, pode ser acessada apenas por administradores autenticados.</p>
+-   <p><span style="color: red">DELETE </span>/users/{user} - Usada para deletar um usuário da base de dados, é necessário estar autenticado.</p>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+<h2>Rotas de Médicos</h2>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   <p><span style="color: #00b050">GET </span>/doctors - Usada para recuperar todos os médicos cadastrados, pode ser acessada sem autenticação.</p>
 
-## Laravel Sponsors
+-   <p><span style="color: #00b050">GET </span>/doctors/{doctor} - Usada para buscar um médico especifico cadastrado, pode ser acessada sem autenticação.</p>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+-   <p><span style="color: #4472c4">POST </span>/doctors - Usada para criar um novo médico, deve ser passado no corpo da requisição as informações necessárias para o cadastro (name, crm, email). Somente administradores podem cadastrar novos médicos.</p>
 
-### Premium Partners
+-   <p><span style="color: #7030a0">PUT </span>/doctors/{doctor} - Usada para atualizar um médico cadastrado, pode ser acessada apenas por administradores autenticados.</p>
+-   <p><span style="color: red">DELETE </span>/doctors/{doctor} - Usada para deletar um médico da base de dados, é necessário estar autenticado.</p>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<h2>Rotas de Consultas</h2>
 
-## Contributing
+-   <p><span style="color: #00b050">GET </span>/appointments - Usada para recuperar todas as consultas cadastradas, pode ser acessada sem autenticação.</p>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   <p><span style="color: #00b050">GET </span>/appointments/{appointment} - Usada para buscar uma consulta especifica cadastrada, pode ser acessada sem autenticação.</p>
 
-## Code of Conduct
+-   <p><span style="color: #4472c4">POST </span>/appointments - Usada para criar uma nova consulta, deve ser passado no corpo da requisição as informações da consulta a ser criada (description, date, type). Somente administradores podem criar novas consultas.</p>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   <p><span style="color: #7030a0">PUT </span>/appointments/{appointment} - Usada para atualizar uma consulta cadastrada, pode ser acessada apenas por administradores autenticados.</p>
+-   <p><span style="color: red">DELETE </span>/appointments/{appointment} - Usada para deletar uma consulta da base de dados, é necessário estar autenticado.</p>
 
-## Security Vulnerabilities
+<h2>Rotas de Vacinas</h2>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   <p><span style="color: #00b050">GET </span>/vaccines - Usada para recuperar todas as vacinas cadastradas, pode ser acessada sem autenticação.</p>
 
-## License
+-   <p><span style="color: #00b050">GET </span>/vaccines/{vaccine} - Usada para buscar uma vacina em especifico, pode ser acessada sem autenticação.</p>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   <p><span style="color: #4472c4">POST </span>/vaccines - Usada para criar um novo registro de vacina, deve ser passado no corpo da requisição as informações do registro a ser criado (name, expected_date, application_date). Somente administradores podem criar novos registros de vacina.</p>
+
+-   <p><span style="color: #7030a0">PUT </span>/vaccines/{vaccine} - Usada para atualizar uma vacina cadastrada, pode ser acessada apenas por administradores autenticados.</p>
+-   <p><span style="color: red">DELETE </span>/vaccines/{vaccine} - Usada para deletar um registro de vacina da base de dados, é necessário estar autenticado.</p>
