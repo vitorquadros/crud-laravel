@@ -29,7 +29,7 @@ class DoctorSeeder extends Seeder
         ]);
 
         \App\Models\Doctor::factory()->create([
-            'name' => 'Dr. Julian',
+            'name' => 'Dr. Linux',
             'crm' => strval(random_int(100000, 999999)),
             'email' => 'default@dev.com',
         ]);

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('doctor_id')->references('id')->on('doctors')->cascadeOnDelete();
             $table->text('description');
             $table->date('date');
             $table->text('type');
