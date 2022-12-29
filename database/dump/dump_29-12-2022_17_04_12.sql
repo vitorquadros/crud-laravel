@@ -385,6 +385,7 @@ CREATE TABLE public.users (
     email character varying(255) NOT NULL,
     email_verified_at timestamp(0) without time zone,
     password character varying(255) NOT NULL,
+    is_admin boolean DEFAULT false NOT NULL,
     remember_token character varying(100),
     created_at timestamp(0) without time zone,
     updated_at timestamp(0) without time zone
@@ -505,16 +506,17 @@ ALTER TABLE ONLY public.vaccines ALTER COLUMN id SET DEFAULT nextval('public.vac
 --
 
 COPY public.appointments (id, doctor_id, description, date, type, created_at, updated_at) FROM stdin;
-1	1	Consulta de rotina	2022-12-29	Fisioterapia	2022-12-29 18:26:06	2022-12-29 18:26:06
-2	2	Consulta de retorno	2022-12-29	Odontologia	2022-12-29 18:26:06	2022-12-29 18:26:06
-3	3	Consulta de rotina	2022-12-29	Psicologia	2022-12-29 18:26:06	2022-12-29 18:26:06
-4	4	Consulta de checkup	2022-12-29	Nutrição	2022-12-29 18:26:06	2022-12-29 18:26:06
-5	5	Consulta de checkup	2022-12-29	Fonoaudiologia	2022-12-29 18:26:06	2022-12-29 18:26:06
-6	5	Consulta de Teste	2022-12-29	Fisioterapia	2022-12-29 18:26:06	2022-12-29 18:26:06
-7	3	Consulta de sexta-feira	2022-12-29	Odontologia	2022-12-29 18:26:06	2022-12-29 18:26:06
-8	3	Consulta de manhã	2022-12-29	Psicologia	2022-12-29 18:26:06	2022-12-29 18:26:06
-9	1	Consulta anual	2022-12-29	Nutrição	2022-12-29 18:26:06	2022-12-29 18:26:06
-10	2	Consulta mensal	2022-12-29	Fonoaudiologia	2022-12-29 18:26:06	2022-12-29 18:26:06
+1	1	Consulta de rotina	2022-12-29	Fisioterapia	2022-12-29 19:57:13	2022-12-29 19:57:13
+2	2	Consulta de retorno	2022-12-29	Odontologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+3	3	Consulta de rotina	2022-12-29	Psicologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+4	4	Consulta de checkup	2022-12-29	Nutrição	2022-12-29 19:57:13	2022-12-29 19:57:13
+5	5	Consulta de checkup	2022-12-29	Fonoaudiologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+6	5	Consulta de Teste	2022-12-29	Fisioterapia	2022-12-29 19:57:13	2022-12-29 19:57:13
+7	3	Consulta de sexta-feira	2022-12-29	Odontologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+8	3	Consulta de manhã	2022-12-29	Psicologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+9	1	Consulta anual	2022-12-29	Nutrição	2022-12-29 19:57:13	2022-12-29 19:57:13
+10	2	Consulta mensal	2022-12-29	Fonoaudiologia	2022-12-29 19:57:13	2022-12-29 19:57:13
+11	5	Andddt	2022-12-17	2022-12-12	2022-12-29 20:02:47	2022-12-29 20:02:47
 \.
 
 
@@ -523,11 +525,11 @@ COPY public.appointments (id, doctor_id, description, date, type, created_at, up
 --
 
 COPY public.doctors (id, name, email, crm, created_at, updated_at) FROM stdin;
-1	Dr. House	default@dev.com	998264	2022-12-29 18:26:05	2022-12-29 18:26:05
-2	Dr. Wilson	default@dev.com	692506	2022-12-29 18:26:05	2022-12-29 18:26:05
-3	Dr. Linux	default@dev.com	395301	2022-12-29 18:26:05	2022-12-29 18:26:05
-4	Dr. Drauzio Varella	default@dev.com	435369	2022-12-29 18:26:05	2022-12-29 18:26:05
-5	Dr. Laravel	default@dev.com	606444	2022-12-29 18:26:05	2022-12-29 18:26:05
+1	Dr. House	default@dev.com	934639	2022-12-29 19:57:13	2022-12-29 19:57:13
+2	Dr. Wilson	default@dev.com	938720	2022-12-29 19:57:13	2022-12-29 19:57:13
+3	Dr. Linux	default@dev.com	664784	2022-12-29 19:57:13	2022-12-29 19:57:13
+4	Dr. Drauzio Varella	default@dev.com	149014	2022-12-29 19:57:13	2022-12-29 19:57:13
+5	Dr. Laravel	default@dev.com	576023	2022-12-29 19:57:13	2022-12-29 19:57:13
 \.
 
 
@@ -568,6 +570,8 @@ COPY public.password_resets (email, token, created_at) FROM stdin;
 --
 
 COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, token, abilities, last_used_at, expires_at, created_at, updated_at) FROM stdin;
+1	App\\Models\\User	11	test@dev.com	39a519e79185782c24d765c26faa5da5d97c4137d8c600c2c7c64614623b89bd	[]	2022-12-29 20:02:14	\N	2022-12-29 20:02:02	2022-12-29 20:02:14
+2	App\\Models\\User	12	admin@dev.com	67f3654bc9a23f8d29b4ce6b06cd6c65e8a4a8532fd523c7933850e3614f9771	["is-admin"]	2022-12-29 20:02:46	\N	2022-12-29 20:02:40	2022-12-29 20:02:46
 \.
 
 
@@ -575,18 +579,20 @@ COPY public.personal_access_tokens (id, tokenable_type, tokenable_id, name, toke
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (id, name, email, email_verified_at, password, remember_token, created_at, updated_at) FROM stdin;
-1	Ms. Suzanne Goodwin DVM	herman.dannie@example.com	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	ZGpLoANanx	2022-12-29 18:26:05	2022-12-29 18:26:05
-2	Alfonso Berge I	cparker@example.org	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	GxpuJSCVwU	2022-12-29 18:26:05	2022-12-29 18:26:05
-3	Prof. Otto Bahringer II	scarlett16@example.com	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	MsCj3bCVip	2022-12-29 18:26:05	2022-12-29 18:26:05
-4	Luis Powlowski PhD	labadie.charity@example.org	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	kSHtdwPBOx	2022-12-29 18:26:05	2022-12-29 18:26:05
-5	Camryn Marvin	purdy.augustine@example.org	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	OxWLeoxHtS	2022-12-29 18:26:05	2022-12-29 18:26:05
-6	Kory O'Connell	upton.heath@example.com	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	AUgO0c3stQ	2022-12-29 18:26:05	2022-12-29 18:26:05
-7	Prof. Christy Prohaska PhD	dmertz@example.com	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	Lj8Ppc1mMY	2022-12-29 18:26:05	2022-12-29 18:26:05
-8	Melba Mayert	kmclaughlin@example.net	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	maER4OFDwM	2022-12-29 18:26:05	2022-12-29 18:26:05
-9	Emmitt Funk DVM	mellie55@example.com	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	7fiBKmDGF1	2022-12-29 18:26:05	2022-12-29 18:26:05
-10	Ms. Krystal Upton	christine86@example.org	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	4S9Zgfn8lt	2022-12-29 18:26:05	2022-12-29 18:26:05
-11	Usuário de Teste	test@dev.com	2022-12-29 18:26:05	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	xIVhVZWX1Y	2022-12-29 18:26:05	2022-12-29 18:26:05
+COPY public.users (id, name, email, email_verified_at, password, is_admin, remember_token, created_at, updated_at) FROM stdin;
+1	Prof. Riley Marvin	roselyn17@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	y3l2vW5IaU	2022-12-29 19:57:12	2022-12-29 19:57:12
+2	Dr. Modesto Rice Jr.	ghamill@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	77h8msLWyK	2022-12-29 19:57:12	2022-12-29 19:57:12
+3	Queenie Zulauf	joany21@example.org	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	PDGU5nKAcH	2022-12-29 19:57:12	2022-12-29 19:57:12
+4	Carmel Schultz	marie.frami@example.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	upJ2DeAITJ	2022-12-29 19:57:12	2022-12-29 19:57:12
+5	April Walter IV	matilde.dach@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	MNCbhdLkDA	2022-12-29 19:57:12	2022-12-29 19:57:12
+6	Shaniya Hammes MD	block.shane@example.org	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	E24ZxHntdI	2022-12-29 19:57:12	2022-12-29 19:57:12
+7	Miss Amalia Kuhlman Sr.	ethan.stiedemann@example.org	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	v85xN68wzx	2022-12-29 19:57:12	2022-12-29 19:57:12
+8	Dr. Clifton Collins	fdietrich@example.net	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	XldjPUtViR	2022-12-29 19:57:12	2022-12-29 19:57:12
+9	Alessia Hermiston PhD	vella51@example.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	VjrLgoZHCF	2022-12-29 19:57:12	2022-12-29 19:57:12
+10	Tyrique Jones	nikolas.jakubowski@example.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	YUTkw93MGc	2022-12-29 19:57:12	2022-12-29 19:57:12
+11	Usuário de Teste	test@dev.com	2022-12-29 19:57:12	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	f	hmF5fxQ5hT	2022-12-29 19:57:12	2022-12-29 19:57:12
+12	Admin	admin@dev.com	2022-12-29 19:57:13	$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi	t	kzfJzJ1U9b	2022-12-29 19:57:13	2022-12-29 19:57:13
+13	Admin 2	admin@admmin.com	\N	$2y$10$BG6StNLoU4BPe8gQ/oyvuu8TRQLqBhm07pHvPupW91qzZB5R3dqyS	t	\N	2022-12-29 19:58:53	2022-12-29 19:58:53
 \.
 
 
@@ -595,11 +601,11 @@ COPY public.users (id, name, email, email_verified_at, password, remember_token,
 --
 
 COPY public.vaccines (id, name, expected_date, application_date, created_at, updated_at) FROM stdin;
-1	Covid - 1a Dose	2022-12-17	2022-12-12	2022-12-29 18:26:06	2022-12-29 18:26:06
-2	Covid - 2a Dose	2022-12-17	2022-12-12	2022-12-29 18:26:06	2022-12-29 18:26:06
-3	Covid - 3a Dose	2022-12-17	2022-12-12	2022-12-29 18:26:06	2022-12-29 18:26:06
-4	Covid - 4a Dose	2022-12-17	2022-12-12	2022-12-29 18:26:06	2022-12-29 18:26:06
-5	Antitetânica	2022-12-17	2022-12-12	2022-12-29 18:26:06	2022-12-29 18:26:06
+1	Covid - 1a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+2	Covid - 2a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+3	Covid - 3a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+4	Covid - 4a Dose	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
+5	Antitetânica	2022-12-17	2022-12-12	2022-12-29 19:57:13	2022-12-29 19:57:13
 \.
 
 
@@ -607,7 +613,7 @@ COPY public.vaccines (id, name, expected_date, application_date, created_at, upd
 -- Name: appointments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.appointments_id_seq', 10, true);
+SELECT pg_catalog.setval('public.appointments_id_seq', 11, true);
 
 
 --
@@ -635,14 +641,14 @@ SELECT pg_catalog.setval('public.migrations_id_seq', 8, true);
 -- Name: personal_access_tokens_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 1, false);
+SELECT pg_catalog.setval('public.personal_access_tokens_id_seq', 2, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 11, true);
+SELECT pg_catalog.setval('public.users_id_seq', 13, true);
 
 
 --
